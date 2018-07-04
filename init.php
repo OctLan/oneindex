@@ -17,6 +17,7 @@ function i_autoload($className) {
 spl_autoload_register('i_autoload');
 
 !defined('FILE_FLAGS') && define('FILE_FLAGS', LOCK_EX);
+require  __DIR__.'/heroku.php';
 /**
  * config('name');
  * config('name@file');
