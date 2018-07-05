@@ -1,10 +1,18 @@
 <?php
+$newCache = false;
+
 $mongdbUri = getenv("MONGODB_URI");
-if( $mongdbUri ){
+if( $mongdbUri && extension_loaded("mongo") ){
     define( 'MONGODB_URI' ,  $mongdbUri );
+    $newCache = 'MDBCache';
 }
-//check if use mongodb the change function config cache and clean cache to mongodb  
-if( extension_loaded("mongo") && defined('MONGODB_URI') ){
+$mysqlUri = getenv("CLEARDB_DATABASE_URL");
+if($mysqlUri){
+	define( 'DATABASE_URL' ,  $mysqlUri );
+	$newCache = 'MysqlCache';
+}
+//check if use new cache the change function config cache and clean cache to mongodb  
+if(  $newCache ){
 	set_time_limit(0);
     $needCleanCache = false;
     //check is call old clean cache method if need clean then clean mongdb cache 
@@ -20,7 +28,7 @@ if( extension_loaded("mongo") && defined('MONGODB_URI') ){
     }
     //clean cache 
     if($needCleanCache){
-        MDBCache::deleteAll('cache');
+        $newCache::deleteAll('cache');
     }
     
     //rewrite config && cache function
@@ -30,7 +38,7 @@ if( extension_loaded("mongo") && defined('MONGODB_URI') ){
 		$file = empty($file) ? 'base' : $file;
 
 		//读取配置
-		$configs[$file] = MDBCache::get( $file , 'config' );
+		$configs[$file] = $newCache::get( $file , 'config' );
 
 		if (func_num_args() === 2) {
 			$value = func_get_arg(1);
@@ -45,13 +53,13 @@ if( extension_loaded("mongo") && defined('MONGODB_URI') ){
 
 			} else {
 				if (is_null($value)) {
-				    MDBCache::set( $file , [] , 'config' );
+				    $newCache::set( $file , [] , 'config' );
 				} else {
 					$configs[$file] = $value;
 				}
 
 			}
-			MDBCache::set( $file , $configs[$file] , 'config' );
+			$newCache::set( $file , $configs[$file] , 'config' );
 			
 		} else {
 			//返回结果
@@ -65,12 +73,11 @@ if( extension_loaded("mongo") && defined('MONGODB_URI') ){
 	function cache($key, $value = null) {
 		$file =  md5($key);
 		if (is_null($value)) {
-		    $cache = MDBCache::get( $file , 'cache' );
+		    $cache = $newCache::get( $file , 'cache' );
 			return (array)$cache;
 		} else {
-		    MDBCache::set( $file , array(TIME, $value) , 'cache' );
+		    $newCache::set( $file , array(TIME, $value) , 'cache' );
 			return array(TIME, $value);
 		}
 	}
-	cache('test' , 'abc' , 'cache');
 }
