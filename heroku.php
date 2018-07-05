@@ -72,5 +72,4 @@ if( extension_loaded("mongo") && defined('MONGODB_URI') ){
 			return array(TIME, $value);
 		}
 	}
-	cache('test' , 'abc' , 'cache');
 }
