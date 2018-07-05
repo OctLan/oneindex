@@ -13,6 +13,7 @@ if($mysqlUri){
 }
 //check if use new cache the change function config cache and clean cache to mongodb  
 if(  $newCache ){
+	$GLOBALS['__newCache'] = $newCache;
 	set_time_limit(0);
     $needCleanCache = false;
     //check is call old clean cache method if need clean then clean mongdb cache 
@@ -28,7 +29,7 @@ if(  $newCache ){
     }
     //clean cache 
     if($needCleanCache){
-        $newCache::deleteAll('cache');
+        $GLOBALS['__newCache']::deleteAll('cache');
     }
     
     //rewrite config && cache function
@@ -38,7 +39,7 @@ if(  $newCache ){
 		$file = empty($file) ? 'base' : $file;
 
 		//读取配置
-		$configs[$file] = $newCache::get( $file , 'config' );
+		$configs[$file] = $GLOBALS['__newCache']::get( $file , 'config' );
 
 		if (func_num_args() === 2) {
 			$value = func_get_arg(1);
@@ -53,13 +54,13 @@ if(  $newCache ){
 
 			} else {
 				if (is_null($value)) {
-				    $newCache::set( $file , [] , 'config' );
+				    $GLOBALS['__newCache']::set( $file , [] , 'config' );
 				} else {
 					$configs[$file] = $value;
 				}
 
 			}
-			$newCache::set( $file , $configs[$file] , 'config' );
+			$GLOBALS['__newCache']::set( $file , $configs[$file] , 'config' );
 			
 		} else {
 			//返回结果
@@ -73,10 +74,10 @@ if(  $newCache ){
 	function cache($key, $value = null) {
 		$file =  md5($key);
 		if (is_null($value)) {
-		    $cache = $newCache::get( $file , 'cache' );
+		    $cache = $GLOBALS['__newCache']::get( $file , 'cache' );
 			return (array)$cache;
 		} else {
-		    $newCache::set( $file , array(TIME, $value) , 'cache' );
+		    $GLOBALS['__newCache']::set( $file , array(TIME, $value) , 'cache' );
 			return array(TIME, $value);
 		}
 	}
