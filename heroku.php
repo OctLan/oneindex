@@ -6,7 +6,9 @@ if( $mongdbUri && extension_loaded("mongo") ){
     define( 'MONGODB_URI' ,  $mongdbUri );
     $newCache = 'MDBCache';
 }
-$mysqlUri = getenv("CLEARDB_DATABASE_URL");
+$mysqlUri = getenv('JAWSDB_URL');
+$mysqlUri = $mysqlUri?:getenv("CLEARDB_DATABASE_URL");
+
 if($mysqlUri){
 	define( 'DATABASE_URL' ,  $mysqlUri );
 	$newCache = 'MysqlCache';
