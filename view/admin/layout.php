@@ -4,8 +4,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
 	<title>OneIndex 系统管理</title>
-	<link rel="stylesheet" href="./public/mdui/css/mdui.min.css">
-	<script src="./public/mdui/js/mdui.min.js"></script>
+	<link rel="stylesheet" href="/public/mdui/css/mdui.min.css">
+	<script src="/public/mdui/js/mdui.min.js"></script>
 	<script>$ = mdui.JQ;</script>
 </head>
 <body class="mdui-drawer-body-left mdui-appbar-with-toolbar  mdui-theme-primary-indigo mdui-theme-accent-blue">
