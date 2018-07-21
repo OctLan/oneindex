@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<title><?php _($title);?></title>
-	<link rel="stylesheet" href="//cdn.bootcss.com/mdui/0.4.1/css/mdui.min.css">
-	<script src="//cdn.bootcss.com/mdui/0.4.1/js/mdui.min.js"></script>
+	<link rel="stylesheet" href="./public/mdui/css/mdui.min.css">
+	<script src="./public/mdui/js/mdui.min.js"></script>
 	<style>
 		.mdui-appbar .mdui-toolbar{
 			/*height:56px;*/
