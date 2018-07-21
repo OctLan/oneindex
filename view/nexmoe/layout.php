@@ -4,9 +4,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
 	<title><?php e($title.' - '.config('site_name'));?></title>
-	<link rel="stylesheet" href="./public/mdui/css/mdui.min.css">
-	<link rel="stylesheet" href="./public/custom/main.css">
-	<script src="./public/mdui/js/mdui.min.js"></script>
+	<link rel="stylesheet" href="/public/mdui/css/mdui.min.css">
+	<link rel="stylesheet" href="/public/custom/main.css">
+	<script src="/public/mdui/js/mdui.min.js"></script>
 </head>
 <body class="mdui-theme-primary-blue-grey mdui-theme-accent-blue">
 	
