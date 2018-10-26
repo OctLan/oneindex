@@ -29,9 +29,9 @@ function file_ico($item){
 <div class="mdui-row">
 	<ul class="mdui-list">
 		<li class="mdui-list-item th">
-		  <div class="mdui-col-xs-12 mdui-col-sm-7">文件 <i class="mdui-icon material-icons icon-sort" data-sort="name" data-order="downward">arrow_downward</i></div>
-		  <div class="mdui-col-sm-3 mdui-text-right">修改时间 <i class="mdui-icon material-icons icon-sort" data-sort="date" data-order="downward">arrow_downward</i></div>
-		  <div class="mdui-col-sm-2 mdui-text-right">大小 <i class="mdui-icon material-icons icon-sort" data-sort="size" data-order="downward">arrow_downward</i></div>
+		  <div class="mdui-col-xs-12 mdui-col-sm-7">文件 <i class="mdui-icon material-icons icon-sort" data-sort="name" data-order="downward">expand_more</i></div>
+		  <div class="mdui-col-sm-3 mdui-text-right">修改时间 <i class="mdui-icon material-icons icon-sort" data-sort="date" data-order="downward">expand_more</i></div>
+		  <div class="mdui-col-sm-2 mdui-text-right">大小 <i class="mdui-icon material-icons icon-sort" data-sort="size" data-order="downward">expand_more</i></div>
 		</li>
 		<?php if($path != '/'):?>
 		<li class="mdui-list-item mdui-ripple">
@@ -75,7 +75,7 @@ function file_ico($item){
 	</ul>
 </div>
 <?php if($readme):?>
-<div class="mdui-typo mdui-shadow-3" style="padding: 20px;margin: 20px; 0">
+<div class="mdui-typo mdui-shadow-3" style="padding: 20px;margin: 20px 0;">
 	<div class="mdui-chip">
 	  <span class="mdui-chip-icon"><i class="mdui-icon material-icons">face</i></span>
 	  <span class="mdui-chip-title">README.md</span>
@@ -111,22 +111,6 @@ $.fn.extend({
     }
 });
 
-function downall() {
-    let dl_link_list = Array.from(document.querySelectorAll("li a"))
-        .map(x => x.href) // 所有list中的链接
-        .filter(x => x.slice(-1) != "/"); // 筛选出非文件夹的文件下载链接
-
-    let blob = new Blob([dl_link_list.join("\r\n")], {
-        type: 'text/plain'
-    }); // 构造Blog对象
-    let a = document.createElement('a'); // 伪造一个a对象
-    a.href = window.URL.createObjectURL(blob); // 构造href属性为Blob对象生成的链接
-    a.download = "folder_download_link.txt"; // 文件名称，你可以根据你的需要构造
-    a.click() // 模拟点击
-    a.remove();
-
-}	
-	
 $(function () {
     $('.file a').each(function () {
         $(this).on('click', function () {
@@ -139,19 +123,18 @@ $(function () {
     });
 
     $('.icon-sort').on('click', function () {
-        let sort_type = $(this).attr("data-sort"), sort_order = $(this).attr("data-order");
-        let sort_order_to = (sort_order === "downward") ? "upward" : "downward";
+        var sort_type = $(this).attr("data-sort"), sort_order = $(this).attr("data-order");
+        var sort_order_to = (sort_order === "less") ? "more" : "less";
 
         $('li[data-sort]').sortElements(function (a, b) {
-            let data_a = $(a).attr("data-sort-" + sort_type), data_b = $(b).attr("data-sort-" + sort_type);
-            let rt = data_a.localeCompare(data_b, undefined, {numeric: true});
-            return (sort_order === "downward") ? 0-rt : rt;
+            var data_a = $(a).attr("data-sort-" + sort_type), data_b = $(b).attr("data-sort-" + sort_type);
+            var rt = data_a.localeCompare(data_b, undefined, {numeric: true});
+            return (sort_order === "more") ? 0-rt : rt;
         });
 
-        $(this).attr("data-order", sort_order_to).text("arrow_" + sort_order_to);
+        $(this).attr("data-order", sort_order_to).text("expand_" + sort_order_to);
     })
 
 });
 </script>
-<a href="javascript:downall();" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
 <?php view::end('content');?>
